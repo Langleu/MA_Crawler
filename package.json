@@ -1,0 +1,22 @@
+{
+  "name": "ma_crawler",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"test\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Langleu/MA_Crawler.git"
+  },
+  "author": "langleu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Langleu/MA_Crawler/issues"
+  },
+  "homepage": "https://github.com/Langleu/MA_Crawler#readme",
+  "dependencies": {
+    "koa": "^2.11.0"
+  }
+}
