@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "PORT=30030 nyc mocha test/**/*.spec.js",
+    "test": "PORT=30030 TYPE=master nyc mocha test/**/*.spec.js",
     "coverage": "nyc report --reporter=json",
-    "lint": "eslint *.js test/*.js --fix",
+    "lint": "eslint *.js test/**/*.js --fix",
     "dev": "nodemon ."
   },
   "repository": {
@@ -21,15 +21,20 @@
   "homepage": "https://github.com/Langleu/MA_Crawler#readme",
   "dependencies": {
     "@koa/router": "^8.0.8",
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
-    "koa-combine-routers": "^4.0.2"
+    "koa-combine-routers": "^4.0.2",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint": "^7.0.0",
     "eslint-config-google": "^0.14.0",
+    "eslint-plugin-babel": "^5.3.0",
     "mocha": "^7.1.2",
     "nodemon": "^2.0.3",
     "nyc": "^15.0.1"
