@@ -19,6 +19,7 @@ class GitHub {
 
   // 30 req per minute (authenticated)
   // 10 req per minute unauthenticated)
+  // TODO: check why total count is only 20k compared to postman with 800k
   async searchCode(term, page) {
     const res = await axios({
       method: 'get',
