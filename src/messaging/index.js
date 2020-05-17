@@ -1,5 +1,4 @@
-
-
+const ServerMessaging = require('./server/index');
 class MessagingHandler {
   constructor(io) {
     if (process.env.TYPE == 'master') {
