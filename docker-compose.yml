@@ -1,0 +1,17 @@
+version: '3'
+services:
+  master:
+    build: .
+    image: langleu/ma_crawler:latest
+    ports:
+      - '8000:8000'
+    environment:
+      TYPE: 'master'
+      PORT: 8000
+  
+  node1:
+    build: .
+    image: langleu/ma_crawler:latest
+    environment:
+      TYPE: 'client'
+      PORT: 8008
