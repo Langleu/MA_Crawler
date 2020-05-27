@@ -18,9 +18,8 @@ class GitHub {
   constructor() {}
 
   // 30 req per minute (authenticated)
-  // 10 req per minute unauthenticated)
-  // TODO: check why total count is only 20k compared to postman with 800k
-  async searchCode(term, page) {
+  // 10 req per minute (unauthenticated)
+  async searchCode(term, page, size, order = 'asc', sort = 'indexed') {
     const res = await axios({
       method: 'get',
       url: `${baseUrl}/search/code`,
@@ -29,6 +28,9 @@ class GitHub {
         q: `fileName:${term}`,
         page: page,
         per_page: 100,
+        size: size,
+        order: order, // asc or desc, ignored if sort not defined
+        sort: sort, // only option is indexed, if null then best match is applied
       },
     });
 
