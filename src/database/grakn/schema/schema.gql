@@ -13,43 +13,43 @@ define
     relates included;
 
   user sub entity,
-  plays owner,
-  has rid,
-  has name,
-  has created,
-  has updated,
-  has platform;
+    plays owner,
+    has rid,
+    has name,
+    has created,
+    has updated,
+    has platform;
 
   repository sub entity,
-  plays ownee,
-  plays container,
-  has rid,
-  has name,
-  has fork,
-  has created,
-  has updated,
-  has description;
+    plays ownee,
+    plays container,
+    has rid,
+    has name,
+    has fork,
+    has created,
+    has updated,
+    has description;
 
   deployment sub entity,
-  plays containment,
-  plays inclusion,
-  has rid,
-  has rtype,
-  has rawUrl,
-  has name,
-  has executable,
-  has created,
-  has updated,
-  has version;
+    plays containment,
+    plays inclusion,
+    has rid,
+    has rtype,
+    has rawUrl,
+    has name,
+    has executable,
+    has created,
+    has updated,
+    has version;
 
   image sub entity,
-  plays included,
-  has name,
-  has rtype,
-  has version,
-  has created,
-  has updated,
-  has metadata;
+    plays included,
+    has name,
+    has rtype,
+    has version,
+    has created,
+    has updated,
+    has metadata;
 
   rid sub attribute,
     datatype string;
