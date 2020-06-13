@@ -21,8 +21,25 @@ class ComposeProcessor extends GenericStrategy {
       compose = compose.data;
       let composeParsed = yaml.parse(compose);
 
-      console.log(composeParsed);
+      let services = [];
 
+      Object.keys(composeParsed.services).forEach((key) => {
+        services.push({
+          name: key,
+          type: 'Docker',
+          image: composeParsed.services[key].image.split(':')[0],
+          version: composeParsed.services[key].image.split(':')[1],
+          metadata: JSON.stringify({
+            environment: composeParsed.services[key].environment,
+            ports: composeParsed.services[key].ports,
+            command: composeParsed.services[key].command,
+          }),
+        });
+
+        console.log(key, composeParsed.services[key]);
+
+      });
+      
       let deployment = {};
       deployment.rawUrl = url;
       deployment.type = 'docker-compose';
@@ -30,9 +47,10 @@ class ComposeProcessor extends GenericStrategy {
       deployment.id = data.sha;
       deployment.executable = -1; // -1 = not yet evaluated
       deployment.version = composeParsed.version;
-      console.log(deployment);
+
+      // TODO: add relation of includes and depends_on
       
-      return;
+      return {services, deployment};
     } else {
       // object was supplied
 
