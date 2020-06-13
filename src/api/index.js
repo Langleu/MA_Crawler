@@ -6,6 +6,7 @@ module.exports = (io) => {
 const healthV1 = require('./v1/health');
 const defaultV1 = require('./v1/index');
 const crawlV1 = require('./v1/crawl');
+const processV1 = require('./v1/process');
 
 // master routes
 const orchestrateV1 = require('./v1/orchestrate')(io);
@@ -14,6 +15,7 @@ const routes = [
   healthV1,
   defaultV1,
   crawlV1,
+  processV1,
 ];
 
 // use config later
