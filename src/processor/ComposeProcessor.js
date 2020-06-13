@@ -22,6 +22,9 @@ class ComposeProcessor extends GenericStrategy {
       let composeParsed = yaml.parse(compose);
 
       let services = [];
+      let depends_on = [];
+      let deployment = {};
+      let includes = [];
 
       Object.keys(composeParsed.services).forEach((key) => {
         services.push({
@@ -36,11 +39,18 @@ class ComposeProcessor extends GenericStrategy {
           }),
         });
 
-        console.log(key, composeParsed.services[key]);
+        if (composeParsed.services[key].depends_on) {
+          composeParsed.services[key].depends_on.forEach(e => {
+            // A depends on B
+            depends_on.push({
+                serviceA: key,
+                serviceB: e
+            })
+          });
+        }
 
       });
       
-      let deployment = {};
       deployment.rawUrl = url;
       deployment.type = 'docker-compose';
       deployment.name = url.split('/').pop();
@@ -48,15 +58,19 @@ class ComposeProcessor extends GenericStrategy {
       deployment.executable = -1; // -1 = not yet evaluated
       deployment.version = composeParsed.version;
 
-      // TODO: add relation of includes and depends_on
+      services.forEach(e => {
+        includes.push({
+          deploymentId: deployment.id,
+          serviceName: e.name,
+        })
+      });
       
-      return {services, deployment};
+      return {services, deployment, includes, depends_on};
     } else {
-      // object was supplied
+      // possibly provide the whole raw compose file already
 
+      return;
     }
-
-    return;
   }
 
   async batchProcess(data) {

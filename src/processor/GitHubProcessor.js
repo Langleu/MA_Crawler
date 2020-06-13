@@ -20,6 +20,8 @@ class GitHubProcessor extends GenericStrategy {
     repository.description = data.repository.description;
     repository.fork = data.repository.fork;
 
+    // TODO: call to composeProcessor
+
     return {user, repository};
   }
 
