@@ -11,6 +11,10 @@ define
   include sub relation,
     relates inclusion,
     relates included;
+  
+  depend sub relates,
+    relates dependant,
+    relates dependency;
 
   user sub entity,
     plays owner,
@@ -42,13 +46,16 @@ define
     has updated,
     has version;
 
-  image sub entity,
+  service sub entity,
     plays included,
+    plays dependant,
+    plays dependency,
     has name,
     has rtype,
     has version,
     has created,
     has updated,
+    has image,
     has metadata;
 
   rid sub attribute,
@@ -85,4 +92,7 @@ define
     datatype date;
 
   metadata sub attribute,
+    datatype string;
+
+  image sub attribute,
     datatype string;
