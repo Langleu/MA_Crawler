@@ -1,4 +1,5 @@
 const GenericStrategy = require('./GenericStrategy');
+const ComposeProcessor = new (require('./ComposeProcessor'))();
 
 class GitHubProcessor extends GenericStrategy {
   constructor() {
@@ -6,8 +7,11 @@ class GitHubProcessor extends GenericStrategy {
   }
 
   async process(data) {
+    data = data;
     let user = {};
     let repository = {};
+    let owns = [];
+    let contains = [];
 
     let owner = data.repository.owner; 
 
@@ -20,16 +24,23 @@ class GitHubProcessor extends GenericStrategy {
     repository.description = data.repository.description;
     repository.fork = data.repository.fork;
 
-    // TODO: call to composeProcessor
+    let {services, deployment, includes, depends_on} = await ComposeProcessor.process({ url: data.html_url, sha: data.sha });
 
-    return {user, repository};
+    owns.push({ userId: user.id, repoId: repository.id });
+    contains.push({ repoId: repository.id, deploymentId: deployment.id });
+
+    return {user, owns, repository, contains, deployment, includes, services, depends_on};
   }
 
   async batchProcess(data) {
-    data.items.forEach(e => {
-      
-    });
-    return;
+    let processed = [];
+
+    // TODO: possible parallel implementation
+    for (const item of data.items) {
+      processed.push(await this.process(item));
+    }
+
+    return processed;
   }
 }
 

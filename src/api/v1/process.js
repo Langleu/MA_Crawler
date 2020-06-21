@@ -2,7 +2,7 @@ const Router = require('@koa/router');
 const router = new Router({prefix: '/v1/process'});
 const GenericProcessor = require('./../../processor/GenericProcessor');
 
-const availableProcessors = ['GitHub', 'Compose'];
+const availableProcessors = ['GitHubAPI', 'Compose'];
 
 router.get('/', async (ctx, next) => {
   ctx.body = {
@@ -18,7 +18,7 @@ router.post('/', async (ctx, next) => {
     ctx.body = true;
     const processor = new GenericProcessor(type);
 
-    ctx.body = await processor.process(data);
+    ctx.body = await processor.batchProcess(data);
   } else {
     ctx.throw(400, 'processor not implemented!');
   }
