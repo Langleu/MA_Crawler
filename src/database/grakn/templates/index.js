@@ -11,18 +11,20 @@ module.exports = (template) => {
   switch(template) {
     case 'contain':
       return contain;
-    case 'own':
-      return own;
-    case 'include':
-      return include;
+    case 'depend':
+      return depend;
     case 'deployment':
       return deployment;
-    case 'user':
-      return user;
+    case 'include':
+      return include;
+    case 'own':
+      return own;
     case 'repo':
       return repo;
-    case 'image':
-      return image;
+    case 'service':
+      return service;
+    case 'user':
+      return user;
     default:
       console.log(`${template} is currently not implemented`);
   }
