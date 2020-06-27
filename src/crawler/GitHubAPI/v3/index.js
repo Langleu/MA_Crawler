@@ -19,18 +19,24 @@ class GitHub {
 
   // 30 req per minute (authenticated)
   // 10 req per minute (unauthenticated)
-  async searchCode(term, page, size, order = 'asc', sort = 'indexed') {
+  async searchCode(term, page = 1, size, order = 'asc', sort = 'indexed') {
     const res = await axios({
       method: 'get',
       url: `${baseUrl}/search/code`,
       headers: headers,
       params: {
-        q: `fileName:${term}`,
+        q: `filename:${term}${size ? '+size:' + size : ''}`,
         page: page,
         per_page: 100,
-        size: size,
         order: order, // asc or desc, ignored if sort not defined
         sort: sort, // only option is indexed, if null then best match is applied
+      },
+      paramsSerializer: (params) => {
+        let result = '';
+        Object.keys(params).forEach(key => {
+            result += `${key}=${params[key]}&`;
+        });
+        return result.substr(0, result.length - 1);
       },
     });
 

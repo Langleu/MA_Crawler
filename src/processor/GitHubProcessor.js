@@ -24,7 +24,11 @@ class GitHubProcessor extends GenericStrategy {
     repository.description = data.repository.description;
     repository.fork = data.repository.fork;
 
-    let {services, deployment, includes, depends_on} = await ComposeProcessor.process({ url: data.html_url, sha: data.sha });
+    try {
+      var {services, deployment, includes, depends_on} = await ComposeProcessor.process({ url: data.html_url, sha: data.sha });
+    } catch (e) {
+      console.log(e);
+    }
 
     owns.push({ userId: user.id, repoId: repository.id });
     contains.push({ repoId: repository.id, deploymentId: deployment.id });

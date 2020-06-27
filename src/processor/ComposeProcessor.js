@@ -1,5 +1,5 @@
 const GenericStrategy = require('./GenericStrategy');
-const yaml = require('yaml');
+const yaml = require('js-yaml');
 const axios = require('axios').default;
 const crypto = require('crypto');
 
@@ -27,16 +27,23 @@ class ComposeProcessor extends GenericStrategy {
     let deployment = {};
     let includes = [];
 
-    let composeParsed = yaml.parse(data);
+    let composeParsed = {};
+
+    try {
+      composeParsed = yaml.safeLoad(data);
+    } catch (e) {
+      return;
+    }
 
     // typical compose file
     if ('services' in composeParsed) {
       Object.keys(composeParsed.services).forEach((key) => {
+        if (composeParsed.services[key] == null) return;
         services.push({
           name: key,
           type: 'Docker',
-          image: (composeParsed.services[key].image || '').split(':')[0],
-          version: (composeParsed.services[key].image || '').split(':')[1],
+          image: ((composeParsed.services[key] || {}).image || '').split(':')[0] || composeParsed.services[key].build || (composeParsed.services[key].build || {}).context || composeParsed.services[key].dockerfile,
+          version: ((composeParsed.services[key] || {}).image || '').split(':')[1] || composeParsed.services[key].build ? 'N/A' : 'N/A',
           metadata: JSON.stringify({
             environment: composeParsed.services[key].environment,
             ports: composeParsed.services[key].ports,
@@ -63,11 +70,12 @@ class ComposeProcessor extends GenericStrategy {
     // compose file that directly declares services
     if (!('services' in composeParsed)) {
       Object.keys(composeParsed).forEach((key) => {
-        services.push({
+        if (composeParsed[key] == null) return;
+         services.push({
           name: key,
           type: 'Docker',
-          image: (composeParsed[key].image || '').split(':')[0],
-          version: (composeParsed[key].image || '').split(':')[1],
+          image: ((composeParsed[key] || {}).image || '').split(':')[0] || composeParsed[key].build || (composeParsed[key].build || {}).context || composeParsed[key].dockerfile,
+          version: ((composeParsed[key] || {}).image || '').split(':')[1] || composeParsed[key].build ? 'N/A' : 'N/A',
           metadata: JSON.stringify({
             environment: composeParsed[key].environment,
             ports: composeParsed[key].ports,
@@ -94,7 +102,7 @@ class ComposeProcessor extends GenericStrategy {
     deployment.name = rawUrl.split('/').pop();
     deployment.id = sha;
     deployment.executable = -1; // -1 = not yet evaluated
-    deployment.version = composeParsed.version;
+    deployment.version = composeParsed.version || 'N/A';
 
     services.forEach(e => {
       includes.push({

@@ -10,7 +10,7 @@ class GitHubAPICrawler extends GenericStrategy {
   }
 
   async crawl(data) {
-    return await this.gapi.searchCode(data.term, data.page);
+    return await this.gapi.searchCode(data.term, data.page, data.size);
   }
 }
 
