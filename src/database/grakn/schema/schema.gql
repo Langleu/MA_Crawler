@@ -22,7 +22,8 @@ define
     has name,
     has created,
     has updated,
-    has platform;
+    has platform,
+    has schemaVersion;
 
   repository sub entity,
     plays ownee,
@@ -32,7 +33,8 @@ define
     has fork,
     has created,
     has updated,
-    has description;
+    has description,
+    has schemaVersion;
 
   deployment sub entity,
     plays containment,
@@ -44,7 +46,8 @@ define
     has executable,
     has created,
     has updated,
-    has version;
+    has version,
+    has schemaVersion;
 
   service sub entity,
     plays included,
@@ -56,7 +59,8 @@ define
     has created,
     has updated,
     has image,
-    has metadata;
+    has metadata,
+    has schemaVersion;
 
   rid sub attribute,
     datatype string;
@@ -80,19 +84,22 @@ define
     datatype string;
 
   executable sub attribute,
-    datatype boolean;
+    datatype long;
 
   version sub attribute,
     datatype string;
 
   created sub attribute,
-    datatype date;
+    datatype datetime;
 
   updated sub attribute,
-    datatype date;
+    datatype datetime;
 
   metadata sub attribute,
     datatype string;
 
   image sub attribute,
     datatype string;
+
+  schemaVersion sub attribute,
+    datatype long;
