@@ -12,14 +12,14 @@ class Grakn {
 
   async openSession () {
     this.client = new GraknClient(config.graknURI);
-    this.session = await client.session(this.keyspace);   
+    this.session = await this.client.session(this.keyspace);   
   };
 
   async closeSession() {
     await this.session.close();
     this.client.close();
   }
-
+  
   async insertTemplate(item, type) {
     const transaction = await this.session.transaction().write();
     const graqlInsertQuery = template(type)(item);

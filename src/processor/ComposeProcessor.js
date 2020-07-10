@@ -32,7 +32,7 @@ class ComposeProcessor extends GenericStrategy {
     try {
       composeParsed = yaml.safeLoad(data);
     } catch (e) {
-      console.log(e);
+    console.log(e);
       return;
     }
 
