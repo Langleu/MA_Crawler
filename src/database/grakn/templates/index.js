@@ -1,11 +1,12 @@
 const contain = require('./contain');
+const depend = require('./depend');
 const own = require('./own');
 const include = require('./include');
 
 const deployment = require('./deployment');
 const user = require('./user');
 const repo = require('./repo');
-const image = require('./image');
+const service = require('./service');
 
 module.exports = (template) => {
   switch(template) {
