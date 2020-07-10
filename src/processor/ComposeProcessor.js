@@ -32,6 +32,7 @@ class ComposeProcessor extends GenericStrategy {
     try {
       composeParsed = yaml.safeLoad(data);
     } catch (e) {
+      console.log(e);
       return;
     }
 
@@ -95,7 +96,6 @@ class ComposeProcessor extends GenericStrategy {
 
       });
     }
-
     
     deployment.rawUrl = rawUrl;
     deployment.type = 'docker-compose';

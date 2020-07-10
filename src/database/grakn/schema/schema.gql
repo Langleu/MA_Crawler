@@ -12,7 +12,7 @@ define
     relates inclusion,
     relates included;
   
-  depend sub relates,
+  depend sub relation,
     relates dependant,
     relates dependency;
 
@@ -63,43 +63,43 @@ define
     has schemaVersion;
 
   rid sub attribute,
-    datatype string;
+    value string;
 
   name sub attribute,
-    datatype string;
+    value string;
 
   platform sub attribute,
-    datatype string;
+    value string;
 
   fork sub attribute,
-    datatype boolean;
+    value boolean;
 
   description sub attribute,
-    datatype string;
+    value string;
   
   rtype sub attribute,
-    datatype string;
+    value string;
 
   rawUrl sub attribute,
-    datatype string;
+    value string;
 
   executable sub attribute,
-    datatype long;
+    value long;
 
   version sub attribute,
-    datatype string;
+    value string;
 
   created sub attribute,
-    datatype datetime;
+    value datetime;
 
   updated sub attribute,
-    datatype datetime;
+    value datetime;
 
   metadata sub attribute,
-    datatype string;
+    value string;
 
   image sub attribute,
-    datatype string;
+    value string;
 
   schemaVersion sub attribute,
-    datatype long;
+    value long;

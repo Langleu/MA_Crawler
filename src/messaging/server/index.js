@@ -10,5 +10,16 @@ module.exports = (io) => {
     socket.on('disconnect', (reason) => {
           console.log(Object.keys(io.sockets.sockets));
     });
+
+    socket.on('status', (status) => {
+        status = JSON.parse(status);
+        console.log(status);
+    });
+
+    socket.on('result', (result) => {
+      result = JSON.parse(result);
+      console.log(result);
+      // TODO: insert into Database
+    });
   });
 }

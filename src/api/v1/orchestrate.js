@@ -33,7 +33,7 @@ module.exports = (io) => {
         Object.keys(io.sockets.sockets).forEach( (node, index) => {
           let request = {
             ending: fragment * (index + 1),
-            beginning: fragment * index,
+            beginning: (index == 0) ? 50 : fragment * index, // set minimum to 50 bytes, even that is barely a docker-compose
             term,
             crawler: type,
           }
