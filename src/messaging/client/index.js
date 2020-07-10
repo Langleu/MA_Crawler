@@ -11,18 +11,31 @@ socket.on('event', (data) => {
 });
 
 socket.on('crawl', async (data) => {
-  let pData = JSON.parse(data);
+  const pData = JSON.parse(data);
   console.log(`crawl: ${JSON.stringify(pData)}`);
 
-  let crawler = new gCrawler(pData.crawler);
-  let processor = new gProcessor(pData.crawler);
-  let res = await crawler.crawl({
-    term: pData.term,
-    size: 105
-  });
+  const crawler = new gCrawler(pData.crawler);
+  const processor = new gProcessor(pData.crawler);
+  const start = pData.beginning;
+  const end = pData.ending;
 
-  let res2 = await processor.batchProcess(res);
-  console.log(res2);
+  for (i = start; i <= end; i++) {
+    let res = await crawler.crawl({
+      term: pData.term,
+      size: i
+    });
+
+    socket.emit('status', JSON.stringify({
+      node: socket.id,
+      start,
+      end,
+      progress: i
+    }));
+
+    let res2 = await processor.batchProcess(res);
+
+    socket.emit('result', JSON.stringify(res2));
+  }
 
   // TODO: call up /crawl with axios and page 1,2,3... sent result to processing or return to master.
 });
