@@ -13,6 +13,7 @@ class ComposeProcessor extends GenericStrategy {
     if (!tempUrl.includes('raw.githubusercontent')) {
         tempUrl = tempUrl.replace(/github.com/i, 'raw.githubusercontent.com');
         tempUrl = tempUrl.replace(/blob\//i, '');
+        tempUrl = tempUrl.replace('#', '%23');
       }
 
       let compose = await axios.get(tempUrl);
@@ -29,10 +30,13 @@ class ComposeProcessor extends GenericStrategy {
 
     let composeParsed = {};
 
+    if (!data || !rawUrl || !sha)
+      return;
+
     try {
       composeParsed = yaml.safeLoad(data);
     } catch (e) {
-    console.log(e);
+      console.error(e);
       return;
     }
 
@@ -85,13 +89,18 @@ class ComposeProcessor extends GenericStrategy {
         });
 
         if (composeParsed[key].depends_on) {
-          composeParsed[key].depends_on.forEach(e => {
-            // A depends on B
-            depends_on.push({
-                serviceA: key,
-                serviceB: e
-            })
-          });
+          try {
+            composeParsed[key].depends_on.forEach(e => {
+              // A depends on B
+              depends_on.push({
+                  serviceA: key,
+                  serviceB: e
+              })
+            });
+          } catch(e) {
+            // e.g. edge case of -X instead - X
+            console.error(e);
+          }
         }
 
       });

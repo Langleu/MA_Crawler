@@ -23,8 +23,12 @@ class Grakn {
   async insertTemplate(item, type) {
     const transaction = await this.session.transaction().write();
     const graqlInsertQuery = template(type)(item);
-    await transaction.query(graqlInsertQuery);
-    await transaction.commit();
+    try {
+      await transaction.query(graqlInsertQuery);
+      await transaction.commit();
+    } catch(e) {
+      // catch duplicate creation
+    }
   }
 
   async runQuery(query, searchTarget) {
