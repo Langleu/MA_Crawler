@@ -4,6 +4,7 @@ const config = {
   'port': process.env.PORT || '8000',
   'type': process.env.TYPE || 'client',
   'graknURI': process.env.GraknURI || 'localhost:48555',
+  'Sentry': process.env.SENTRY || '',
 };
 
 module.exports = config;

@@ -2,9 +2,21 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const MessagingHandler = require('./src/messaging/index');
 const config = require('./config');
+const Sentry = require('@sentry/node');
 
 const app = new Koa();
 const port = config.port;
+
+Sentry.init({ dsn: config.Sentry });
+
+app.on('error', (err, ctx) => {
+  Sentry.withScope(function(scope) {
+    scope.addEventProcessor(function(event) {
+      return Sentry.Handlers.parseRequest(event, ctx.request);
+    });
+    Sentry.captureException(err);
+  });
+});
 
 let server = null;
 let io = null;

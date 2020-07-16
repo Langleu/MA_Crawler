@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Langleu/MA_Crawler#readme",
   "dependencies": {
     "@koa/router": "^8.0.8",
+    "@sentry/node": "^5.19.2",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "grakn-client": "^1.8.0",
