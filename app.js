@@ -7,7 +7,11 @@ const Sentry = require('@sentry/node');
 const app = new Koa();
 const port = config.port;
 
-Sentry.init({ dsn: config.Sentry });
+Sentry.init({ 
+  dsn: config.Sentry,
+  sampleRate: 1.0, // 100%
+  serverName: `langleu-${config.type}`
+});
 
 app.on('error', (err, ctx) => {
   Sentry.withScope(function(scope) {

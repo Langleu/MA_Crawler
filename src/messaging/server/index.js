@@ -39,8 +39,8 @@ module.exports = (io) => {
         };
 
         // Relations
-        await db.insertTemplate(e.owns, 'own');
-        await db.insertTemplate(e.contains, 'contain');
+        await db.insertTemplate(e.owns[0], 'own');
+        await db.insertTemplate(e.contains[0], 'contain');
         for (const r of e.includes) {
           await db.insertTemplate(r, 'include');
         };
