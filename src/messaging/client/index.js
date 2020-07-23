@@ -2,17 +2,18 @@ const socket = require('socket.io-client')('http://localhost:8000');
 const axios = require('axios').default;
 const gCrawler = require('./../../crawler/GenericCrawler');
 const gProcessor = require('./../../processor/GenericProcessor');
+const logger = require('./../../../logger');
 
 socket.on('connect', () => {
-  console.log('connected');
+  logger.info('connected');
 });
 socket.on('event', (data) => {
-  console.log(data);
+  logger.info(data);
 });
 
 socket.on('crawl', async (data) => {
   const pData = JSON.parse(data);
-  console.log(`crawl: ${JSON.stringify(pData)}`);
+  logger.info(`crawl: ${JSON.stringify(pData)}`);
 
   const crawler = new gCrawler(pData.crawler);
   const processor = new gProcessor(pData.crawler);

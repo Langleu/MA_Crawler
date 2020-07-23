@@ -1,8 +1,10 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
-const MessagingHandler = require('./src/messaging/index');
-const config = require('./config');
 const Sentry = require('@sentry/node');
+
+const config = require('./config');
+const logger = require('./logger');
+const MessagingHandler = require('./src/messaging/index');
 
 const app = new Koa();
 const port = config.port;
@@ -40,7 +42,6 @@ const router = require('./src/api/index')(io);
 app.use(koaBody());
 app.use(router());
 
-
-console.log(`The server was started on port: ${port}`);
+logger.info(`The server was started on port: ${port}`);
 
 module.exports = {server};

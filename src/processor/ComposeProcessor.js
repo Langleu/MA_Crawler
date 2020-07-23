@@ -2,6 +2,7 @@ const GenericStrategy = require('./GenericStrategy');
 const yaml = require('js-yaml');
 const axios = require('axios').default;
 const crypto = require('crypto');
+const logger = require('./../../logger');
 
 class ComposeProcessor extends GenericStrategy {
   constructor() {
@@ -36,7 +37,7 @@ class ComposeProcessor extends GenericStrategy {
     try {
       composeParsed = yaml.safeLoad(data);
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       return;
     }
 
@@ -101,7 +102,7 @@ class ComposeProcessor extends GenericStrategy {
             });
           } catch(e) {
             // e.g. edge case of -X instead - X
-            console.error(e);
+            logger.error(e);
           }
         }
 

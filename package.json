@@ -31,6 +31,7 @@
     "koa-combine-routers": "^4.0.2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
+    "winston": "^3.3.3",
     "yaml": "^1.10.0"
   },
   "devDependencies": {
