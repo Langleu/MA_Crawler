@@ -5,6 +5,6 @@ module.exports = (own) => {
   graqlInsertQuery += `$repository isa repository, has rid "${repoId}"; `;
   
   graqlInsertQuery +=
-      "insert (owner: $user, ownee: $repository) isa own;";
+      `insert (owner: $user, ownee: $repository) isa own, has rid "${userId}-${repoId}";`;
   return graqlInsertQuery;
 }

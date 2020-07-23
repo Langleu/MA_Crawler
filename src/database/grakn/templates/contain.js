@@ -5,6 +5,6 @@ module.exports = (contain) => {
   graqlInsertQuery += `$deployment isa deployment, has rid "${deploymentId}"; `;
   
   graqlInsertQuery +=
-      "insert (container: $repository, containment: $deployment) isa contain;";
+      `insert (container: $repository, containment: $deployment) isa contain, has rid "${repoId}-${deploymentId}";`;
   return graqlInsertQuery;
 }

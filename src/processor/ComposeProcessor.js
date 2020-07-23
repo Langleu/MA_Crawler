@@ -45,6 +45,7 @@ class ComposeProcessor extends GenericStrategy {
       Object.keys(composeParsed.services).forEach((key) => {
         if (composeParsed.services[key] == null) return;
         services.push({
+          rid: crypto.createHash('sha256').update(`${key}-${sha}`).digest('hex'),
           name: key,
           type: 'Docker',
           image: ((composeParsed.services[key] || {}).image || '').split(':')[0] || composeParsed.services[key].build || (composeParsed.services[key].build || {}).context || composeParsed.services[key].dockerfile,
@@ -60,8 +61,8 @@ class ComposeProcessor extends GenericStrategy {
           composeParsed.services[key].depends_on.forEach(e => {
             // A depends on B
             depends_on.push({
-                serviceA: key,
-                serviceB: e
+                serviceA: crypto.createHash('sha256').update(`${key}-${sha}`).digest('hex'),
+                serviceB: crypto.createHash('sha256').update(`${e}-${sha}`).digest('hex')
             })
           });
         }
@@ -77,6 +78,7 @@ class ComposeProcessor extends GenericStrategy {
       Object.keys(composeParsed).forEach((key) => {
         if (composeParsed[key] == null) return;
          services.push({
+          rid: crypto.createHash('sha256').update(`${key}-${sha}`).digest('hex'),
           name: key,
           type: 'Docker',
           image: ((composeParsed[key] || {}).image || '').split(':')[0] || composeParsed[key].build || (composeParsed[key].build || {}).context || composeParsed[key].dockerfile,
@@ -93,8 +95,8 @@ class ComposeProcessor extends GenericStrategy {
             composeParsed[key].depends_on.forEach(e => {
               // A depends on B
               depends_on.push({
-                  serviceA: key,
-                  serviceB: e
+                  serviceA: crypto.createHash('sha256').update(`${key}-${sha}`).digest('hex'),
+                  serviceB: crypto.createHash('sha256').update(`${e}-${sha}`).digest('hex')
               })
             });
           } catch(e) {
@@ -111,12 +113,13 @@ class ComposeProcessor extends GenericStrategy {
     deployment.name = rawUrl.split('/').pop();
     deployment.id = sha;
     deployment.executable = -1; // -1 = not yet evaluated
+    deployment.score = -1; // -1 = not yet evaluated
     deployment.version = composeParsed.version || 'N/A';
 
     services.forEach(e => {
       includes.push({
         deploymentId: deployment.id,
-        serviceName: e.name,
+        serviceId: e.rid,
       })
     });
     

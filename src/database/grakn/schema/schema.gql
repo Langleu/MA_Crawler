@@ -1,18 +1,22 @@
 define
 
   own sub relation,
+    key rid,
     relates owner,
     relates ownee;
   
   contain sub relation,
+    key rid,
     relates container,
     relates containment;
 
   include sub relation,
+    key rid,
     relates inclusion,
     relates included;
   
   depend sub relation,
+    key rid,
     relates dependant,
     relates dependency;
 
@@ -47,12 +51,14 @@ define
     has created,
     has updated,
     has version,
+    has score,
     has schemaVersion;
 
   service sub entity,
     plays included,
     plays dependant,
     plays dependency,
+    key rid,
     has name,
     has rtype,
     has version,
@@ -84,6 +90,9 @@ define
     value string;
 
   executable sub attribute,
+    value long;
+
+  score sub attribute,
     value long;
 
   version sub attribute,

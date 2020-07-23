@@ -1,11 +1,11 @@
 module.exports = (depend) => {
   // A depends on B
-  const { serviceNameA, serviceNameB } = depend;
+  const { serviceA, serviceB } = depend;
 
-  let graqlInsertQuery = `match $serviceNameA isa service, has name "${serviceNameA}"; `;
-  graqlInsertQuery += `$serviceNameB isa service, has rid "${serviceNameB}"; `;
+  let graqlInsertQuery = `match $serviceA isa service, has rid "${serviceA}"; `;
+  graqlInsertQuery += `$serviceB isa service, has rid "${serviceB}"; `;
   
   graqlInsertQuery +=
-      "insert (dependant: $serviceNameA, dependency: $serviceNameB) isa depend;";
+      `insert (dependant: $serviceA, dependency: $serviceB) isa depend, has rid "${serviceA}-${serviceB}";`;
   return graqlInsertQuery;
 }
