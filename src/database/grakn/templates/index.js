@@ -2,6 +2,7 @@ const contain = require('./contain');
 const depend = require('./depend');
 const own = require('./own');
 const include = require('./include');
+const logger = require('../../../../logger');
 
 const deployment = require('./deployment');
 const user = require('./user');
@@ -27,6 +28,6 @@ module.exports = (template) => {
     case 'user':
       return user;
     default:
-      console.log(`${template} is currently not implemented`);
+      logger.error(`${template} is currently not implemented`);
   }
 };

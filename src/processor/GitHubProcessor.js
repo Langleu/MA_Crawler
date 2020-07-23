@@ -1,5 +1,6 @@
 const GenericStrategy = require('./GenericStrategy');
 const ComposeProcessor = new (require('./ComposeProcessor'))();
+const logger = require('../../logger');
 
 class GitHubProcessor extends GenericStrategy {
   constructor() {
@@ -27,8 +28,8 @@ class GitHubProcessor extends GenericStrategy {
     try {
       var {services, deployment, includes, depends_on} = await ComposeProcessor.process({ url: data.html_url, sha: data.sha });
     } catch (e) {
-      console.log(data.html_url);
-      console.error(e);
+      logger.error(data.html_url);
+      logger.error(e);
       return;
     }
 

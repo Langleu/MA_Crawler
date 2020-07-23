@@ -1,5 +1,6 @@
 
 const Grakn = require('./../../database/grakn/grakn');
+const logger = require('../../../logger');
 const db = new Grakn('docker');
 
 module.exports = (io) => {
@@ -8,26 +9,26 @@ module.exports = (io) => {
 
     // Playground to target single sockets
     io.sockets.sockets[Object.keys(io.sockets.sockets)[0]].emit('event', 'test2');
-    console.log(Object.keys(io.sockets.sockets));
+    logger.info(Object.keys(io.sockets.sockets));
 
     socket.on('disconnect', (reason) => {
-          console.log(Object.keys(io.sockets.sockets));
+          logger.info(Object.keys(io.sockets.sockets));
     });
 
     socket.on('status', (status) => {
         status = JSON.parse(status);
-        console.log(status);
+        logger.info(status);
     });
 
     socket.on('result', async (result) => {
       result = JSON.parse(result);
 
-      console.log('inserting into db');
+      logger.info('inserting into db');
       await db.openSession();
 
       for (const e of result) {
-        console.log(e);
-        console.log('inserting entry');
+        logger.info(e);
+        logger.info('inserting entry');
         if (!e) return;
         // user, owns, repository, contains, deployment, includes, services, depends_on
         // Entities
@@ -50,8 +51,6 @@ module.exports = (io) => {
       };
       
       await db.closeSession();
-      //console.log(result);
-      // TODO: insert into Database
     });
   });
 }
