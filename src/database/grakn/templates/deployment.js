@@ -1,5 +1,5 @@
 module.exports = (deployment) => {
-  const { id, type, rawUrl, name, executable, version } = deployment;
+  const { id, type, rawUrl, name, executable, version, score } = deployment;
   const schemaVersion = 1;
   const updated = new Date().toISOString().split('T')[0];
   const created = new Date().toISOString().split('T')[0];
@@ -10,6 +10,7 @@ module.exports = (deployment) => {
   graqlInsertQuery += `, has rtype "${type}"`;
   graqlInsertQuery += `, has rawUrl "${rawUrl}"`;
   graqlInsertQuery += `, has executable ${executable}`;
+  graqlInsertQuery += `, has score ${score}`;
   graqlInsertQuery += `, has version "${version}"`;
   graqlInsertQuery += `, has schemaVersion ${schemaVersion}`;
   graqlInsertQuery += `, has updated ${updated}`;
