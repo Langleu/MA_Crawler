@@ -8,6 +8,9 @@ services:
     environment:
       TYPE: 'master'
       PORT: 8000
+      graknURI: 'grakn:48556'
+    depends_on:
+      - grakn
   
   node1:
     build: .
@@ -15,3 +18,15 @@ services:
     environment:
       TYPE: 'client'
       PORT: 8008
+    depends_on:
+      - master
+
+  grakn:
+    image: graknlabs/grakn:1.8.0
+    ports:
+      - '48556:48555'
+
+  grakn-init:
+    image: alpine:3.12
+    depends_on:
+      - grakn
