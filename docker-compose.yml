@@ -27,6 +27,12 @@ services:
       - '48556:48555'
 
   grakn-init:
-    image: alpine:3.12
+    image: langleu/grakn-console:latest
+    environment:
+      ADDRESS: 'grakn:48555'
+      KEYSPACE: 'docker'
+      FILE: 'schema.gql'
+    volumes:
+      - './src/database/grakn/schema/schema.gql:/grakn/schema.gql'
     depends_on:
       - grakn
