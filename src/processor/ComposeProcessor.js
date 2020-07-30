@@ -136,12 +136,12 @@ class ComposeProcessor extends GenericStrategy {
     } else {
       // possibly provide the whole raw compose file already
       
-      return await this.processStep(data, 'rawFile supplied', data.sha);
+      return await this.processStep(data.rawFile, 'rawFile supplied', data.sha);
     }
   }
 
   async batchProcess(data) {
-    return;
+    return await this.process(data);
   }
 }
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "PORT=30030 TYPE=master nyc mocha test/**/*.spec.js",
+    "test": "PORT=30030 TYPE=master nyc mocha test/**/*.spec.js --exit",
     "coverage": "nyc report --reporter=json",
     "lint": "eslint *.js test/**/*.js --fix",
     "dev": "nodemon ."
