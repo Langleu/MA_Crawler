@@ -1,26 +1,5 @@
 version: '3'
 services:
-  master:
-    build: .
-    image: langleu/ma_crawler:latest
-    ports:
-      - '8000:8000'
-    environment:
-      TYPE: 'master'
-      PORT: 8000
-      GRAKNURI: 'grakn:48556'
-    depends_on:
-      - grakn
-  
-  node1:
-    build: .
-    image: langleu/ma_crawler:latest
-    environment:
-      TYPE: 'client'
-      PORT: 8008
-    depends_on:
-      - master
-
   grakn:
     image: graknlabs/grakn:1.8.0
     ports:

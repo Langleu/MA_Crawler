@@ -12,7 +12,7 @@ class Grakn {
 
   async openSession () {
     this.client = new GraknClient(config.graknURI);
-    this.session = await this.client.session(this.keyspace);   
+    this.session = await this.client.session(this.keyspace);
   };
 
   async closeSession() {
@@ -31,22 +31,34 @@ class Grakn {
     }
   }
 
-  async runQuery(query, searchTarget) {
+  toJson(query, answers) {
+    const results = [];
+    let split = query.split(';')[0].split(',');
+    // first entry = entity, rest is attributes
+    split = split.map(s => {
+      return s.match(/\$\w*/)[0].replace('$', '');
+    });
+
+    let obj = {};
+    answers.forEach(e => {
+      if (e.baseType == 'ENTITY')
+        obj.id = e.id;
+      else
+        obj[e._type._label] = e._value
+      results.push(obj);
+    });
+
+    return results;
+  }
+
+  async runQuery(query) {
     const transaction = await this.session.transaction().read();
     const iterator = await transaction.query(query);
-    const answers = await iterator.collect();
-
-    const result = await Promise.all(
-        answers.map(answer =>
-            answer.map()
-                  .get(searchTarget)
-                  .value()
-        )
-    );
-
+    const answers = await iterator.collectConcepts();
+    
     await transaction.close();
 
-    return result;
+    return this.toJson(query, answers);
   }
 
 }
