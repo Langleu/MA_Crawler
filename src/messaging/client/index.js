@@ -1,4 +1,5 @@
-const socket = require('socket.io-client')('http://localhost:8000');
+const config = require('./../../../config');
+const socket = require('socket.io-client')(config.MASTER_SOCKET);
 const axios = require('axios').default;
 const gCrawler = require('./../../crawler/GenericCrawler');
 const gProcessor = require('./../../processor/GenericProcessor');
@@ -20,7 +21,7 @@ socket.on('crawl', async (data) => {
   const start = pData.beginning;
   const end = pData.ending;
 
-  for (i = start; i <= end; i++) {
+  for (let i = start; i <= end; i++) {
     let res = await crawler.crawl({
       term: pData.term,
       size: i

@@ -5,6 +5,7 @@ const config = {
   'type': process.env.TYPE || 'client',
   'graknURI': process.env.GRAKNURI || 'localhost:48555',
   'Sentry': process.env.SENTRY || '',
+  'MASTER_SOCKET': process.env.MASTER_SOCKET || 'localhost:8000'
 };
 
 module.exports = config;
