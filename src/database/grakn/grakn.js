@@ -1,5 +1,5 @@
 const GraknClient = require('grakn-client');
-const config = require('../../../config');
+const config = require('../../../config').config;
 const template = require('./templates/index');
 
 class Grakn {

@@ -1,4 +1,4 @@
-const config = require('./../../../config');
+const { config, setGitHub } = require('./../../../config');
 const socket = require('socket.io-client')(config.MASTER_SOCKET);
 const axios = require('axios').default;
 const gCrawler = require('./../../crawler/GenericCrawler');
@@ -10,6 +10,10 @@ socket.on('connect', () => {
 });
 socket.on('event', (data) => {
   logger.info(data);
+});
+socket.on('github', (data) => {
+  data = JSON.parse(data);
+  setGitHub(data.username, data.token);
 });
 
 socket.on('crawl', async (data) => {
@@ -39,10 +43,6 @@ socket.on('crawl', async (data) => {
     socket.emit('result', JSON.stringify(res2));
   }
 
-  // TODO: call up /crawl with axios and page 1,2,3... sent result to processing or return to master.
 });
 
-socket.on('disconnect', () => {
-  // save progress
-  // either on process SIGINT or exit  
-});
+socket.on('disconnect', () => {});

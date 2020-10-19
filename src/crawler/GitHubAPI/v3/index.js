@@ -1,15 +1,15 @@
 const axios = require('axios').default;
 const assert = require('assert');
-const config = require('./../../../../config');
+const { getGitHub } = require('./../../../../config');
 
-assert(config.GitHubToken);
-assert(config.GitHubUsername);
+const GitHubToken = '';
+const GitHubUsername = '';
 
 const baseUrl = 'https://api.github.com';
 const headers = {
   'Accept': 'application/vnd.github.v3+json',
-  'Authorization': `token ${config.GitHubToken}`,
-  'User-Agent': config.GitHubUsername,
+  'Authorization': `token ${getGitHub().token}`,
+  'User-Agent': getGitHub().username,
 };
 
 let rateLimitRemaining = -1;

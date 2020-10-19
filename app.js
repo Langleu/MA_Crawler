@@ -2,7 +2,7 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const Sentry = require('@sentry/node');
 
-const config = require('./config');
+const config = require('./config').config;
 const logger = require('./logger');
 const MessagingHandler = require('./src/messaging/index');
 

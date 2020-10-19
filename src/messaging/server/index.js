@@ -2,13 +2,12 @@
 const Grakn = require('./../../database/grakn/grakn');
 const logger = require('./../../../logger');
 const db = new Grakn('docker');
+const config = require('./../../../config').config;
 
 module.exports = (io) => {
-  io.on('connection', (socket) => { 
-    socket.emit('event', 'test');
+  io.on('connection', (socket) => {     
+    socket.emit('github', `${JSON.stringify(config.GitHubAccounts[Object.keys(io.sockets.sockets).length - 1])}`);
 
-    // Playground to target single sockets
-    io.sockets.sockets[Object.keys(io.sockets.sockets)[0]].emit('event', 'test2');
     logger.info(Object.keys(io.sockets.sockets));
 
     socket.on('disconnect', (reason) => {
