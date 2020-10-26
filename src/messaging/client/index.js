@@ -46,7 +46,8 @@ socket.on('crawl', async (data) => {
         node: socket.id,
         start,
         end,
-        progress: i
+        progress: i,
+        page: j
       }));
 
       let res2 = await processor.batchProcess(res);

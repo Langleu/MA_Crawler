@@ -33,8 +33,6 @@ module.exports = (io) => {
       logger.info('inserting into db');
 
       for (const e of result) {
-        logger.info(e);
-        logger.info('inserting entry');
         if (!e) return;
         // user, owns, repository, contains, deployment, includes, services, depends_on
         // Entities
