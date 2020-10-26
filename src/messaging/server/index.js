@@ -4,6 +4,14 @@ const logger = require('./../../../logger');
 const db = new Grakn('docker');
 const config = require('./../../../config').config;
 
+(async () => {
+  await db.openSession();
+})();
+
+process.on('SIGTERM', async () => {
+  await db.closeSession();
+});
+
 module.exports = (io) => {
   io.on('connection', (socket) => {     
     socket.emit('github', `${JSON.stringify(config.GitHubAccounts[Object.keys(io.sockets.sockets).length - 1])}`);
@@ -23,7 +31,6 @@ module.exports = (io) => {
       result = JSON.parse(result);
 
       logger.info('inserting into db');
-      await db.openSession();
 
       for (const e of result) {
         logger.info(e);
@@ -49,7 +56,6 @@ module.exports = (io) => {
         };
       };
       
-      await db.closeSession();
     });
   });
 }
