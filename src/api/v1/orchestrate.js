@@ -1,6 +1,6 @@
 const Router = require('@koa/router');
 const availableCrawlers = ['GitHubAPI']; // TODO: add to config
-const setMaxFileSize = 1000000; // 10mb in bytes, we assume for now that the max file size will be 10 mb
+const setMaxFileSize = 384000; // 384 kb in bytes, max allowed from GitHub API
 
 module.exports = (io) => {
   const router = new Router({

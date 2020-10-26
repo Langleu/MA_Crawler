@@ -1,4 +1,4 @@
-const { config, setGitHub } = require('./../../../config');
+const { config, setGitHub, gitHubCreds } = require('./../../../config');
 const socket = require('socket.io-client')(config.MASTER_SOCKET);
 const axios = require('axios').default;
 const gCrawler = require('./../../crawler/GenericCrawler');
@@ -24,23 +24,36 @@ socket.on('crawl', async (data) => {
   const processor = new gProcessor(pData.crawler);
   const start = pData.beginning;
   const end = pData.ending;
+  let page_end = 10;
 
   for (let i = start; i <= end; i++) {
-    let res = await crawler.crawl({
-      term: pData.term,
-      size: i
-    });
+    for (let j = 1; j <= page_end; j++) {
+      let res = await crawler.crawl({
+        term: pData.term,
+        page: j,
+        size: i
+      });
 
-    socket.emit('status', JSON.stringify({
-      node: socket.id,
-      start,
-      end,
-      progress: i
-    }));
+      if (res.total_count >= 900) {
+        page_end = 10;
+      } else if (res.total_count <= 100) {
+        page_end = 1;
+      } else {
+        page_end = Math.ceil(res.total_count / 100);
+      }
 
-    let res2 = await processor.batchProcess(res);
+      socket.emit('status', JSON.stringify({
+        node: socket.id,
+        start,
+        end,
+        progress: i
+      }));
 
-    socket.emit('result', JSON.stringify(res2));
+      let res2 = await processor.batchProcess(res);
+
+      socket.emit('result', JSON.stringify(res2));
+    }
+    page_end = 10;
   }
 
 });

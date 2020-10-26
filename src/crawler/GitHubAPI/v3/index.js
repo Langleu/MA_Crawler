@@ -6,11 +6,6 @@ const GitHubToken = '';
 const GitHubUsername = '';
 
 const baseUrl = 'https://api.github.com';
-const headers = {
-  'Accept': 'application/vnd.github.v3+json',
-  'Authorization': `token ${getGitHub().token}`,
-  'User-Agent': getGitHub().username,
-};
 
 let rateLimitRemaining = -1;
 
@@ -20,6 +15,11 @@ class GitHub {
   // 30 req per minute (authenticated)
   // 10 req per minute (unauthenticated)
   async searchCode(term, page = 1, size, order = 'asc', sort = 'indexed') {
+    const headers = {
+      'Accept': 'application/vnd.github.v3+json',
+      'Authorization': `token ${getGitHub().token}`,
+      'User-Agent': getGitHub().username,
+    };
     const res = await axios({
       method: 'get',
       url: `${baseUrl}/search/code`,
