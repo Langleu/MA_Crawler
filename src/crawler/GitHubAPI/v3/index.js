@@ -7,14 +7,23 @@ const GitHubUsername = '';
 
 const baseUrl = 'https://api.github.com';
 
-let rateLimitRemaining = -1;
+let rateLimitRemaining = 30;
+
+const sleep = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 class GitHub {
   constructor() {}
 
-  // 30 req per minute (authenticated)
-  // 10 req per minute (unauthenticated)
+  // 30 req per minute (authenticated), valid credentials are a requirements for searching code
   async searchCode(term, page = 1, size, order = 'asc', sort = 'indexed') {
+    if (rateLimitRemaining == 0) {
+      await sleep(60000);
+    }
+
     const headers = {
       'Accept': 'application/vnd.github.v3+json',
       'Authorization': `token ${getGitHub().token}`,
