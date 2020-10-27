@@ -17,8 +17,8 @@ module.exports = (io) => {
     const data = ctx.request.body;
     const type = data.crawler || data.type;
     const term = data.term;
-    const initSize = data.initSize || 50; // set minimum to 50 bytes, even that is barely a docker-compose
-    const maxFileSize = data.maxSize || setMaxFileSize;
+    const initSize = parseInt(data.initSize) || 50; // set minimum to 50 bytes, even that is barely a docker-compose
+    const maxFileSize = parseInt(data.maxSize) || setMaxFileSize;
 
     if (availableCrawlers.includes(type)) {
       ctx.body = true;
@@ -34,8 +34,8 @@ module.exports = (io) => {
 
         Object.keys(io.sockets.sockets).forEach( (node, index) => {
           let request = {
-            ending: fragment * (index + 1),
-            beginning: (index == 0) ? initSize : fragment * index,
+            ending: initSize + fragment * (index + 1),
+            beginning: initSize + fragment * index,
             term,
             crawler: type,
           }
