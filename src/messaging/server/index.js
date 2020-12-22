@@ -51,8 +51,8 @@ module.exports = (io) => {
         };
         for (const r of e.depends_on) {
           await db.insertTemplate(r, 'depend');
-        };
-      };
+        }
+      }
       
     });
   });

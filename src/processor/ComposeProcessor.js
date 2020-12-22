@@ -45,12 +45,21 @@ class ComposeProcessor extends GenericStrategy {
     if ('services' in composeParsed) {
       Object.keys(composeParsed.services).forEach((key) => {
         if (composeParsed.services[key] == null) return;
+        
+        let version = 'N/A';
+        if (composeParsed.services[key].image) {
+          version = composeParsed.services[key].image.split(':')[1]
+          if (version == undefined) {
+            version = 'latest';
+          }
+        }
+
         services.push({
           rid: crypto.createHash('sha256').update(`${key}-${sha}`).digest('hex'),
           name: key,
           type: 'Docker',
           image: ((composeParsed.services[key] || {}).image || '').split(':')[0] || composeParsed.services[key].build || (composeParsed.services[key].build || {}).context || composeParsed.services[key].dockerfile,
-          version: ((composeParsed.services[key] || {}).image || '').split(':')[1] || composeParsed.services[key].build ? 'N/A' : 'N/A',
+          version: version,
           metadata: JSON.stringify({
             environment: composeParsed.services[key].environment,
             ports: composeParsed.services[key].ports,
@@ -71,19 +80,27 @@ class ComposeProcessor extends GenericStrategy {
       });
     }
 
-    // TODO: check if you can have multiple services defined without a proper structure
     // TODO: remove code duplication
     // example https://github.com/pozgo/docker-teamspeak/blob/master/docker-compose.yml
     // compose file that directly declares services
     if (!('services' in composeParsed)) {
       Object.keys(composeParsed).forEach((key) => {
         if (composeParsed[key] == null) return;
+
+        let version = 'N/A';
+        if (composeParsed[key].image) {
+          version = composeParsed[key].image.split(':')[1]
+          if (version == undefined) {
+            version = 'latest';
+          }
+        }
+
          services.push({
           rid: crypto.createHash('sha256').update(`${key}-${sha}`).digest('hex'),
           name: key,
           type: 'Docker',
           image: ((composeParsed[key] || {}).image || '').split(':')[0] || composeParsed[key].build || (composeParsed[key].build || {}).context || composeParsed[key].dockerfile,
-          version: ((composeParsed[key] || {}).image || '').split(':')[1] || composeParsed[key].build ? 'N/A' : 'N/A',
+          version: version,
           metadata: JSON.stringify({
             environment: composeParsed[key].environment,
             ports: composeParsed[key].ports,

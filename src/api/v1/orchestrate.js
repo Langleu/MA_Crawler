@@ -30,7 +30,7 @@ module.exports = (io) => {
       } else if (nodes > 0) {
         // orchestrate to nodes
 
-        let fragment = Math.round(maxFileSize / nodes);
+        let fragment = Math.round((maxFileSize - initSize) / nodes);
 
         Object.keys(io.sockets.sockets).forEach( (node, index) => {
           let request = {

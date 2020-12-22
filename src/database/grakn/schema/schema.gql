@@ -52,6 +52,8 @@ define
     has updated,
     has version,
     has score,
+    has size,
+    has length,
     has schemaVersion;
 
   service sub entity,
@@ -111,4 +113,10 @@ define
     value string;
 
   schemaVersion sub attribute,
+    value long;
+
+  size sub attribute,
+    value long;
+  
+  length sub attribute,
     value long;
