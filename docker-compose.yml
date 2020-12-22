@@ -9,6 +9,7 @@ services:
       TYPE: 'master'
       PORT: 8000
       GRAKNURI: 'grakn:48556'
+      GITHUBACCOUNTS: '[{"username": "name", "token": "00000"}]'
     depends_on:
       - grakn
   
@@ -22,7 +23,7 @@ services:
       - master
 
   grakn:
-    image: graknlabs/grakn:1.8.0
+    image: graknlabs/grakn:1.8.4
     ports:
       - '48556:48555'
 
